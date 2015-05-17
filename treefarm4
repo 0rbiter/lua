@@ -1,0 +1,348 @@
+local args = { ... }
+sleeptime = 120 -- this counts doubletime!
+length = 75 -- size of the farm
+height = 6
+ttl = 5 -- seconds
+dir = args[1] -- strafe direction, 1 = right; 0 = left
+
+dir = dir * 1
+
+function TD()
+  if dir == 0 then
+    turtle.turnLeft()
+  elseif dir == 1 then
+    turtle.turnRight()
+  end
+end
+
+function TDR()
+  if dir == 0 then
+    turtle.turnRight()
+  elseif dir == 1 then
+    turtle.turnLeft()
+  end
+end
+
+function runmiles(miles)
+
+x = 0
+turtle.select(4)
+while x < miles do
+  if not turtle.compare() then
+    turtle.dig()
+  else
+    x = miles
+  end
+  SCK()
+  turtle.forward()
+  SCK()
+  --print("running: "..x.."/"..miles.." miles")
+  x = x + 1
+
+end
+turtle.select(1)
+end
+
+function staubsauger()
+TD()
+TD()
+turtle.digUp()
+turtle.up()
+turtle.dig()
+turtle.forward()
+TDR()
+
+runmiles(length)
+
+TDR()
+turtle.forward()
+TDR()
+
+runmiles(length)
+
+TD()
+turtle.digDown()
+turtle.down()
+
+
+end
+
+
+function H()
+
+turtle.dig()
+SCK()
+turtle.forward()
+turtle.digUp()
+
+
+  k = 1
+  while k < height do
+    if (not turtle.up()) and turtle.getFuelLevel() > 0 then
+      turtle.digUp()
+    else
+      k = k + 1
+    end
+  end
+
+k = 2
+while k < height do
+
+if not turtle.down() then
+turtle.digDown()
+end
+
+if turtle.detectDown() then
+turtle.digDown()
+end
+
+k = k + 1
+end
+
+turtle.down()
+turtle.back()
+SCK()
+
+if turtle.getItemCount(1) > 1 then
+turtle.select(1)
+turtle.place()
+end
+
+end
+
+function SCK()
+turtle.suck()
+turtle.suckUp()
+turtle.suckDown()
+end
+
+function S()
+  re = "nix"
+  SCK()
+
+  turtle.select(1)
+  if turtle.compare() then
+    re = "sapling"
+  end
+  
+  turtle.select(2)
+  if turtle.compare() then
+    re = "wood"
+  end
+  return re
+end
+
+function RF() -- refuel
+  SCK()
+  turtle.select(16)
+  turtle.refuel()
+  turtle.select(1)
+end
+
+function R() -- return/runhome
+  f = 0
+  
+  SCK()
+
+  TDR()
+
+  print("fleeing forward...")
+
+    while f < length do
+    turtle.attack()
+    SCK()
+    turtle.forward()
+    f = f + 1
+  end
+
+  TD()
+  SCK()
+end
+
+
+function sucklava()
+  redstone.setOutput("front",true)
+  sleep(0.5)
+  redstone.setOutput("front",false)
+  sleep(8)
+  turtle.select(16)
+  assert(turtle.placeDown(),"there was no lava...")
+    
+  turtle.select(1)
+end
+
+function getlava()
+
+turtle.back()
+turtle.back()
+turtle.back()
+TDR()
+
+turtle.forward()
+
+turtle.select(4)
+if turtle.detectDown() then
+  turtle.forward()
+  turtle.forward()
+  
+  TD()
+  
+  z = 0
+  while z < 9 do
+    turtle.forward()
+    z = z + 1
+  end
+  TD()
+  sucklava()
+  
+  TD()
+  z = 0
+  while z < 9 do
+    turtle.forward()
+    z = z + 1
+  end
+  TD()
+  turtle.back()
+  turtle.back()
+
+else
+  sucklava()
+  
+end
+RF()
+
+turtle.select(1)
+turtle.back()
+TD()
+turtle.forward()
+turtle.forward()
+turtle.forward()
+
+end
+
+function sortsaps()
+  TDR()
+  turtle.forward()
+  turtle.forward()
+  
+  i = 4
+  while i < 16 do
+    turtle.select(i)
+    if turtle.compareTo(1) and turtle.getItemCount(i) > 1 then
+      turtle.dropDown(turtle.getItemCount(i)-1)
+    end
+    i = i + 1
+  end
+  turtle.select(1)
+  while turtle.suckDown() do
+    print("restoring saplings...")
+  end
+  turtle.back()
+  turtle.back()
+  TD()
+end
+
+function M()
+SCK()
+if dir == 0 then
+  turtle.turnLeft()
+  SCK()
+  if not turtle.forward() then
+    turtle.turnRight()
+    SCK()
+    return false
+  end
+  turtle.turnRight()
+  SCK()
+  
+  elseif dir == 1 then
+    turtle.turnRight()
+    SCK()
+    if not turtle.forward() then
+      turtle.turnLeft()
+      SCK()
+      return false
+    end
+    turtle.turnLeft()
+    SCK()
+  end
+  return true
+end
+
+function cleanall()
+
+  turtle.select(2)
+  turtle.dropDown(turtle.getItemCount(2)-1)
+  
+  i = 5
+  while i < 16 do
+    turtle.select(i)
+    turtle.dropDown()
+    i = i + 1
+  end
+  turtle.select(1)
+end
+
+
+while true do
+RF()
+
+q = 0
+s = ""
+
+while turtle.getFuelLevel() > (length*height*2) do
+print(S())
+
+q = 0
+while q < length do
+SCK()
+
+if not M() then
+print("return to start because move failed :/")
+  R() -- return to start
+  q = 0
+end
+
+turtle.select(3)
+if turtle.compareDown() then
+  sortsaps()
+  cleanall()
+  if turtle.getFuelLevel() < 6000 then
+    getlava()
+  else
+    print("No lava needed, left: "..turtle.getFuelLevel())
+  end
+  print("Sleeping for "..sleeptime.." seconds")
+  sleep(sleeptime)
+  print("Cleaning up")
+  staubsauger()
+  sortsaps()
+  print("Next row!")
+  
+end
+turtle.select(1)
+
+s = S() -- S()can what is infront and write to 's'
+print(s)
+
+if s == "nix" and turtle.getItemCount(1) > 1 then
+  turtle.select(1)
+  turtle.place()
+end
+
+if s == "wood" then
+H()
+SCK()
+end
+
+s = ""
+q = q + 1
+
+end
+
+end
+
+
+print("Kein Sprit!")
+
+end

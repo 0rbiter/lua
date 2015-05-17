@@ -1,0 +1,26 @@
+turtle.up()
+
+i = 0 
+j = 0
+detectd = false
+
+while i < 8 do
+if turtle.detectUp() then
+turtle.digUp()
+detectd = true
+end
+turtle.up()
+j = 0
+while j < 4 and detectd do
+turtle.dig()
+turtle.forward()
+turtle.turnRight()
+turtle.dig()
+turtle.turnLeft()
+turtle.back()
+turtle.turnRight()
+j = j + 1
+end
+detectd = false
+i = i + 1
+end

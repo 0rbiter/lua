@@ -1,0 +1,7 @@
+local modem = peripheral.wrap("right")
+
+inputf = fs.open("treefarm5","r")
+inputs = inputf.readAll()
+
+modem.transmit(4,4,inputs)
+inputf.close()
