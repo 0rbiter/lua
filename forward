@@ -1,7 +1,0 @@
-i = 0
-args = {...}
-
-while i < (args[1] * 1) do
-turtle.forward()
-i = i + 1
-end

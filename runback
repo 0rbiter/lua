@@ -1,9 +1,0 @@
-
-i=0
-while i<18 do
-turtle.dig()
-turtle.forward()
-i = i + 1
-end
-
-
