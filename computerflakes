@@ -1,0 +1,159 @@
+local per1 = peripheral.wrap("top")
+local per2 = peripheral.wrap("back")
+local ME2 = "west"
+local furnace = "east"
+local Item1 = {
+{ id=   15, meta= 0, qty=  0 }  -- Iron Ore
+,{ id= 1440, meta= 3, qty=  0 }  -- Iron Ore
+,{ id=  432, meta= 0, qty=  0 }  -- Copper Ore
+,{ id= 1054, meta= 1, qty=  0 }  -- Copper Ore
+,{ id= 1054, meta= 1, qty=  0 }  -- Copper Ore
+,{ id= 1060, meta= 0, qty=  0 }  -- Copper Ore
+,{ id= 1398, meta= 1, qty=  0 }  -- Copper Ore
+,{ id= 1440, meta= 6, qty=  0 }  -- Copper Ore
+,{ id= 1475, meta= 3, qty=  0 }  -- Copper Ore
+,{ id= 1488, meta= 2, qty=  0 }  -- Copper Ore
+,{ id= 2001, meta= 0, qty=  0 }  -- Copper Ore
+,{ id= 3172, meta= 4, qty=  0 }  -- Copper Ore
+,{ id=  432, meta= 1, qty=  0 }  -- Tin Ore
+,{ id= 1061, meta= 0, qty=  0 }  -- Tin Ore
+,{ id= 1398, meta= 2, qty=  0 }  -- Tin Ore
+,{ id= 1440, meta= 7, qty=  0 }  -- Tin Ore
+,{ id= 1475, meta= 4, qty=  0 }  -- Tin Ore
+,{ id= 2001, meta= 1, qty=  0 }  -- Tin Ore
+,{ id=  432, meta= 2, qty=  0 }  -- Silver Ore
+,{ id= 1440, meta= 9, qty=  0 }  -- Silver Ore
+,{ id= 2001, meta= 2, qty=  0 }  -- Silver Ore
+,{ id= 2036, meta= 4, qty=  0 }  -- Silver Ore
+,{ id= 2171, meta= 0, qty=  0 }  -- Silver ore (Factorization)
+,{ id=   14, meta= 0, qty=  0 }  -- Gold Ore
+,{ id= 1440, meta= 2, qty=  0 }  -- Gold Ore
+,{ id=   21, meta= 0, qty=  0 }  -- Lapis Ore
+,{ id= 1440, meta= 4, qty=  0 }  -- Lapis Ore
+,{ id=   73, meta= 0, qty=  0 }  -- Redstone Ore
+,{ id= 1440, meta= 5, qty=  0 }  -- Redstone Ore
+,{ id=  153, meta= 0, qty=  0 }  -- Quartz Ore
+,{ id=  854, meta= 0, qty=  0 }  -- Quartz Ore
+,{ id= 1440, meta=10, qty=  0 }  -- Lead Ore
+,{ id= 2001, meta= 3, qty=  0 }  -- Lead Ore
+,{ id= 1475, meta= 5, qty=  0 }  -- Aluminium Ore
+,{ id= 1440, meta= 5, qty=  0 }  -- Nether Redstone Ore
+,{ id=  129, meta= 0, qty=  0 }  -- Emerald ore
+,{ id= 2001, meta= 4, qty=  0 }  -- Ferrous Ore
+,{ id=  432, meta= 5, qty=  0 }  -- Platinum Ore
+,{ id= 1475, meta= 1, qty=  0 }  -- Nether Cobalt Ore
+,{ name="Yellorite Ore", qty=  0 }  -- Yellorite Ore
+,{ id= 56, meta= 0, qty=  0 }  -- Diamond Ore
+}
+--for k,v in ipairs(Item1) do print(k.."="..v) end
+
+local Item2 = {
+{ id=20264, meta=  0, qty=128 }  -- Iron Pulver
+,{ id=20264, meta= 32, qty=128 }  -- Copper Pulver
+,{ id=30066, meta=  3, qty=  0 }  -- Copper Dust
+,{ id=30066, meta=  7, qty=  0 }  -- Tin Dust
+,{ id=20264, meta= 33, qty=128 }  -- Tin Pulver
+,{ id=30900, meta=  8, qty=  0 }  -- Lead Dust
+,{ id=30900, meta=148, qty=  0 }  -- Lead Dust
+,{ id=30066, meta= 10, qty=  0 }  -- Lead Dust
+,{ id=20264, meta= 35, qty=128 }  -- Lead Pulver
+,{ id=30066, meta=  4, qty=  0 }  -- Gold Dust
+,{ id=20264, meta=  1, qty=128 }  -- Gold Pulver
+,{ id=18006, meta=  4, qty= 64 }  -- Yellorium Dust
+,{ id=30888, meta= 25, qry=0 } -- Iron Flakes 
+,{ id=30888, meta= 26, qry=0 } -- Gold Flakes
+,{ id=30900, meta= 19, qry=0 } -- Silver Flakes 
+,{ id=30888, meta= 27, qry=0 } -- Redstone Flakes      
+,{ id=30888, meta= 32, qry=0 } -- Silver Flakes 2
+,{ id=30900, meta= 39, qry=0 } -- Certus Quartz Flakes
+,{ id=30900, meta=  3, qry=0 } -- Tin Flakes 
+,{ id=30888, meta= 31, qry=0 } -- Nether Quartz Flakes
+,{ id=30888, meta= 29, qry=0 } -- Diamond Ore Flakes
+,{ id=30900, meta=171, qry=0 } -- Ardite Flakes
+,{ id=30888, meta= 30, qry=0 } -- Emerald Flakes
+,{ id=30888, meta= 28, qry=0 } -- Lapis Flakes
+,{ id=30888, meta= 24, qry=0 } -- Coal Flakes
+,{ id=30900, meta= 31, qry=0 } -- Iridium Flakes
+,{ id=30900, meta=167, qry=0 } -- Cobalt Flakes
+,{ id=30900, meta= 15, qry=0 } -- Nickel Flakes
+,{ id=30900, meta= 27, qry=0 } -- Aluminium Flakes
+,{ id=30900, meta=207, qry=0 } -- Indium Flakes
+,{ id=30900, meta=175, qry=0 } -- Platinum Flakes
+,{ id=30900, meta= 43, qry=0 } -- Uranium Flakes
+--,{ name="Raw Rubber",  qty=128 }  -- Raw Rubber
+--,{ name="Marble Cobblestone", qty=  64 }  -- Marble Cobblestone
+}
+
+function searchItem(item, pery)
+  local me = pery.getAvailableItems()
+  if item.name==nil then
+    for k,v in pairs(me) do
+      --print("--"..v.id.." "..v.dmg.." "..v.qty.." "..v.name)
+      if v.id==item.id and v.dmg==item.meta then
+        return v                       
+      end
+    end
+  else
+    for k,v in pairs(me) do
+      --print("--"..v.id.." "..v.dmg.." "..v.qty.." "..v.name)
+      local x1,x2 = string.find(string.lower(v.name), string.lower(item.name))
+      if x1~=nil then
+        return v
+      end
+    end
+  end
+  return ""
+end
+
+function extractItem(item, menge, richtung, peri)
+  item.qty = menge
+  return peri.extractItem(item, richtung)
+end
+
+function oisout()
+  term.clear()
+  term.setCursorPos(1,1)
+  print(" ")
+  print("OIS - Ore Import System")
+  print("build 104")
+  return " "
+end
+
+while rs.getInput("front") do
+oisout()
+local x = {}
+for k,v in ipairs(Item1) do
+  x = searchItem(v, per1)
+  if x~="" then
+    if x.qty>v.qty then
+      local anz = extractItem(x, x.qty-v.qty, furnace, per1)
+      if anz>0 then
+        oisout()
+        term.setCursorPos(1,5)
+        print("Extracting:")
+        print(" "..tostring(anz).." "..x.name)
+        sleep(1)
+      end
+    end
+  end
+end
+
+for k,v in ipairs(Item2) do
+  x = searchItem(v, per2)
+    if x~="" then
+      print(" "..x.qty.." - "..v.qty.." ")
+      if x.qty>v.qty then
+        local anz = extractItem(x, x.qty-v.qty, ME2, per2)
+        if anz>0 then
+          oisout()
+          term.setCursorPos(1,5)
+          print("Burning:")
+          print(" "..tostring(anz).." "..x.name)
+          sleep(1)
+        end
+      end
+    end
+  end
+  sleep(6)
+end
+
