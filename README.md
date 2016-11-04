@@ -1,5 +1,5 @@
 # lua
-A selection of Lua programs used in Feed the Beast Inifinity/Direwolf20 etc. uzitlizing and automating Computercraft Turtles for different tasks:
+A selection of Lua programs used in Feed the Beast Inifinity/Direwolf20 etc. utilizing and automating Computercraft Turtles for different tasks:
   * GPSa9025_beta
   A script for GPS-less virtual "GPS" farming turtle which is resillient to server crashes, chunk off-/onloading etc. for crop farming (carrots, wheat, etc. etc.)
   
